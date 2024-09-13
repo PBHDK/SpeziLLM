@@ -8,6 +8,7 @@
 
 @testable import SpeziLLMOpenAI
 import XCTest
+import OpenAPIRuntime
 
 
 final class LLMOpenAIParameterArrayTests: XCTestCase {
@@ -56,7 +57,7 @@ final class LLMOpenAIParameterArrayTests: XCTestCase {
     }
     
     let llm = LLMOpenAISchema(
-        parameters: .init(modelType: .gpt4_turbo)
+        parameters: .init(modelType: .init(value1: "gpt-4-turbo", value2: .gpt_hyphen_4_hyphen_turbo))
     ) {
         LLMFunctionTest(someInitArg: "testArg")
     }
@@ -75,7 +76,7 @@ final class LLMOpenAIParameterArrayTests: XCTestCase {
         
         // Validate parameter schema
         let schemaArrayInt = try XCTUnwrap(llmFunction.schemaValueCollectors["intArrayParameter"])
-        XCTAssertEqual(schemaArrayInt.schema.type, .array)
+        XCTAssertEqual(schemaArrayInt.schema.additionalProperties.value["type"], "array")
         XCTAssertEqual(schemaArrayInt.schema.description, "Int Array Parameter")
         XCTAssertEqual(schemaArrayInt.schema.minItems, 1)
         XCTAssertEqual(schemaArrayInt.schema.maxItems, 9)

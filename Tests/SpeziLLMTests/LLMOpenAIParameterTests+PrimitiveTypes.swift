@@ -7,6 +7,7 @@
 //
 
 @testable import SpeziLLMOpenAI
+import OpenAPIRuntime
 import XCTest
 
 
@@ -56,7 +57,7 @@ final class LLMOpenAIParameterPrimitiveTypesTests: XCTestCase {
     }
     
     let llm = LLMOpenAISchema(
-        parameters: .init(modelType: .gpt4_turbo)
+        parameters: .init(modelType: .init(value1: "gpt-4-turbo", value2: .gpt_hyphen_4_hyphen_turbo))
     ) {
         LLMFunctionTest(someInitArg: "testArg")
     }
