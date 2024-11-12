@@ -97,15 +97,13 @@ public struct LLMContextEntity: Codable, Equatable, Hashable, Identifiable {
 
     func imgToBase64Str(img: UIImage?) -> String? {
         if let img {
-            guard let data = img.jpegData(compressionQuality: 1.0) else {
-                return nil
+            if let data = img.jpegData(compressionQuality: 1.0) {
+                return "data:image/jpeg;base64," + data.base64EncodedString()
             }
-            return "data:image/jpeg;base64," + data.base64EncodedString()
-            // return "https://upload.wikimedia.org/wikipedia/commons/thumb/d/dd/Gfp-wisconsin-madison-the-nature-boardwalk.jpg/2560px-Gfp-wisconsin-madison-the-nature-boardwalk.jpg"
-            // return Data(base64Encoded: "data:image/jpeg;base64," + data.base64EncodedString(), options:
-            // .ignoreUnknownCharacters)
-        } else {
-            return nil
+            if let data = img.pngData() {
+                return "data:image/png;base64," + data.base64EncodedString()
+            }
         }
+        return nil
     }
 }
